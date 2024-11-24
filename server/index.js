@@ -2,6 +2,8 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose');
 
+require('dotenv').config();
+
 const cors = require('cors') ;
 
 const userRoutes = require('./routes/user');
@@ -20,4 +22,5 @@ app.listen(3000,()=>{
         console.log("example app listening at port 3000");
 })
 
-mongoose.connect('mongodb+srv://sachinGurjar:Sachin%40123@cluster0.8fkp40v.mongodb.net/', { dbName: "TodoApplication" });
+const mongoUrl = process.env.MONGO_URL
+mongoose.connect( mongoUrl , { dbName: "TodoApplication" });

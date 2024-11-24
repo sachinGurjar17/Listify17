@@ -16,8 +16,10 @@ const priorityClass = {
     low: "bg-green-200"
 }
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL ;
+
 const deleteTodo = async (id)=>{
-    const response = await fetch('http://localhost:3000/todo/deleteTodo',{
+    const response = await fetch(`${backendUrl}/todo/deleteTodo`,{
             method:'POST',
             headers: { 
                 'Content-Type': 'application/json', 
@@ -41,7 +43,7 @@ const statusChanged = async(id , completedOrNot)=>{
     try{
         console.log(id+"try");
         
-        const response = await fetch('http://localhost:3000/todo/statusChange' , {
+        const response = await fetch(`${backendUrl}/todo/statusChange` , {
             method : 'POST',
             headers :{
                 'Content-Type': 'application/json',

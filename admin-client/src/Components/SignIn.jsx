@@ -8,8 +8,10 @@ function SignIn(){
     const [username , setUsername] = useState('');
     const [password , setPassword] = useState('');
 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL ;
+
     const handleSignIn = async ()=>{
-        const response = await fetch('http://localhost:3000/user/signin',{
+        const response = await fetch(`${backendUrl}/user/signin`,{
             method :'POST',
             headers: {'Content-Type':'application/json'},
             body : JSON.stringify({username , password})

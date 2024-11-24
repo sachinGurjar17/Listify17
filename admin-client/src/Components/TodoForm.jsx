@@ -17,8 +17,10 @@ function TodoForm(){
     const {addTodo , todos} = useTodo();
     const authStateValue = useRecoilValue(authState);
 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL ;
+
     const add= async () => {
-        const response = await fetch('http://localhost:3000/todo/todos', {
+        const response = await fetch(`${backendUrl}/todo/todos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem("token")}` },
             body: JSON.stringify({

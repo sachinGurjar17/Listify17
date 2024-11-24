@@ -11,10 +11,12 @@ export const Calender = ()=>{
     const [showWeeks , setShowWeeks] = useState(false)
 
     const authStateValue = useRecoilValue(authState);
+
+    const backendUrl = import.meta.env.VITE_BACKEND_URL ;
     
     useEffect(()=>{
         const getTodos = async ()=>{
-            const response = await fetch('http://localhost:3000/todo/todos',{
+            const response = await fetch(`${backendUrl}/todo/todos`,{
                 headers : {Authorization : `Bearer ${localStorage.getItem("token")}`}
             })
             const data = await response.json();

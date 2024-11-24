@@ -42,10 +42,12 @@ function InitState() {
   const setAuth = useSetRecoilState(authState);
   const navigate = useNavigate();
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL ;
+
   const init = async () => {
       const token = localStorage.getItem("token");
       try {
-          const response = await fetch('http://localhost:3000/user/me', {
+          const response = await fetch(`${backendUrl}/user/me`, {
               headers: { Authorization: `Bearer ${token}` }
           });
           const data = await response.json();

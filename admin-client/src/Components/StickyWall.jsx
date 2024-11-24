@@ -29,9 +29,11 @@ export function StickyWall(){
         }
     }
 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL ;
+
     useEffect(()=>{
         const getNotes = async ()=>{
-            const response = await fetch('http://localhost:3000/notes/getNotes',{
+            const response = await fetch(`${backendUrl}/notes/getNotes`,{
                 method :"GET" , 
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
             })

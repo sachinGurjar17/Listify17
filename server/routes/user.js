@@ -1,11 +1,13 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const express = require('express');
-const { authenticateJwt , SECRET } = require('../middlewares');
+const { authenticateJwt } = require('../middlewares');
 const {User} = require('../database')
 
 
 const router = express.Router();
+
+const SECRET = process.env.JWT_SECRET
 
 router.post('/signup',async (req,res)=>{
     const {username , password} = req.body ;

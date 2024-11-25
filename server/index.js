@@ -6,6 +6,8 @@ require('dotenv').config();
 
 const cors = require('cors') ;
 
+const PORT = process.env.PORT || 3000 ;
+
 const userRoutes = require('./routes/user');
 const todoRoutes = require('./routes/todo');
 const notesRoutes = require('./routes/notes');
@@ -18,7 +20,7 @@ app.use("/todo",todoRoutes);
 app.use("/notes",notesRoutes);
 
 
-app.listen(3000,()=>{
+app.listen(PORT,()=>{
         console.log("example app listening at port 3000");
 })
 

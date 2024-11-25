@@ -13,7 +13,6 @@ const todoRoutes = require('./routes/todo');
 const notesRoutes = require('./routes/notes');
 
 app.use(cors());
-
 app.use(express.json());
 
 app.use("/user",userRoutes);

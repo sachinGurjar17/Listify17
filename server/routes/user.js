@@ -30,7 +30,7 @@ router.post('/signin' , async(req , res)=>{
     const user = await User.findOne({username});
 
     if(user){
-        const token = jwt.sign({ id: user._id }, SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id ,email : username  }, SECRET, { expiresIn: '1h' });
         res.json({message : 'Logged in successfully',token});
     }else{
         res.json({message : "incorrect username or password"});

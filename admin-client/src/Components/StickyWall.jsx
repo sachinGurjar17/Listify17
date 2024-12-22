@@ -3,6 +3,8 @@ import { Layout } from "./Layout";
 import { useEffect, useState } from "react";
 import { authState } from "../store/authState";
 import { NavLink } from "react-router-dom";
+import { Textarea } from "./ui/textarea";
+import { Button } from "./ui/button";
 export function StickyWall(){
     const [textValue , setTextValue] = useState(" ");
 
@@ -24,6 +26,7 @@ export function StickyWall(){
         setTextValue("");
         if(response.ok){
             console.log("note added successfully");
+            setNotes((prevNotes)=>[...prevNotes,{content}]);
         }else{
             console.log("error in adding the notes ");
         }
@@ -70,23 +73,26 @@ export function StickyWall(){
                         </NavLink>
                         <h1 className="" >Sticky Walls</h1>
                     </div>
-                <div className="border rounded-xl grid  grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] h-full auto-cols-fr">
+                
+                <div className="border rounded-xl grid  grid-cols-1 h-fit auto-cols-fr">
+                    <div className="h-full w-full flex flex-col justify-center items-center gap-2  p-3  m-2">
+                            <Textarea 
+                                placeholder="Type your message here. "
+                                value={textValue}
+                                onChange={(e)=>setTextValue(e.target.value)}
+                                type="text" 
+                            />
+                            <Button
+                            onClick={()=>addTextValue(textValue)} 
+                            className="w-fit bg-gray-700 self-end"
+                            >Add</Button>
+                        </div>
                     {
                         notes.map((note , idx)=>(
-                            <div key={idx} className={`${lightTailwindColors[idx%9]} border rounded-xl m-2 p-4 h-56`}>{note.content}</div>
+                            <div key={idx} className={`${lightTailwindColors[idx%9]} border rounded-xl m-2 p-4 h-fit`}>{note.content}</div>
                         ))
                     }
-                    <div className="h-56 w-full  border rounded-xl m-2">
-                        <textarea 
-                            placeholder=""
-                            value={textValue}
-                            onChange={(e)=>setTextValue(e.target.value)}
-                            type="text" 
-                            className="w-full h-full resize-none bg-slate-50 p-2 rounded-xl" >{textValue}</textarea>
-                    </div>
-                    <button
-                        onClick={()=>addTextValue(textValue)} 
-                        className="w-fit h-fit border rounded-xl p-2 m-5 mt-auto bg-gray-300 ">Add</button>
+                    
                 </div>
             
             </div>

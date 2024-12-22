@@ -7,8 +7,7 @@ import { NavLink } from "react-router-dom";
 export const Layout = ({children})=>{
     const [addTask , setAddTask] = useState(true)
     return(
-        <div className="relative min-h-screen">
-
+        <div className=" ">
             <div>
                 <div className="hidden sm:flex sm:flex-row sm:mx-2  sm:my-5">
                     <div className={`w-fit md:w-1/4 md:inline-block`}>
@@ -36,7 +35,7 @@ export const Layout = ({children})=>{
                 onClick={()=>setAddTask(!addTask)} 
                 className="flex flex-col fixed right-5 bottom-5 z-50 text-gray-600">
                 <img src={Add} alt="Add Button" className="w-10 h-10 sm:w-16 sm:h-16 rounded-full cursor-pointer bg-transparent" />
-                new
+                
             </button> : <></>} 
 
             <NavLink
@@ -44,7 +43,7 @@ export const Layout = ({children})=>{
                 onClick={()=>setAddTask(!addTask)} 
                 className="sm:hidden flex flex-col fixed right-5 bottom-5 z-50 text-gray-600">
                 <img src={Add} alt="Add NavLink" className="w-10 h-10 sm:w-16 sm:h-16 rounded-full cursor-pointer bg-transparent" />
-                new
+                
             </NavLink>    
  
         </div>

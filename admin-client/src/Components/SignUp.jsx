@@ -20,7 +20,7 @@ function SignUp(){
         const data = await response.json();
         if(data.token) {
           localStorage.setItem("token",data.token);
-          navigate('/today');
+          navigate('/upcoming');
         }else{
           alert("error while signing up");
         }

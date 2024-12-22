@@ -1,25 +1,34 @@
 import { useState } from "react"
 import { useTodo } from "../Contexts";
-import { useRecoilValue } from "recoil";
-import { authState } from "../store/authState";
 import { NavLink } from "react-router-dom";
+import { Button } from "./ui/button";
+import toast from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
+
 function TodoForm(){
+
+    function getTodayDate() {
+        const today = new Date();
+        return today.toISOString().split('T')[0];  
+    }
+
     const [todo , setTodo] = useState("");
     const [description , setDescription] = useState("");
-    const [date , setDate] = useState("");
+    const [date , setDate] = useState(getTodayDate());
     const [time , setTime] = useState("");
-    const [priority , setPriority] = useState("");
+    const [priority , setPriority] = useState("low");
     const [tags , setTags] = useState([]);
     const [inputTagValue , setInputTagValue] = useState("");
-    
+
+    const navigate = useNavigate();
 
     
-    const {addTodo , todos} = useTodo();
-    const authStateValue = useRecoilValue(authState);
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL ;
 
-    const add= async () => {
+
+    const add = async (e) => {
+        e.preventDefault();
         const response = await fetch(`${backendUrl}/todo/todos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -34,7 +43,15 @@ function TodoForm(){
                 completed : false 
             })
         });
-        addTodo({todo, description , date,time , priority , tags});
+
+        if(response.ok){
+            console.log("Task Added");
+            toast.success('Task Added')
+        }else{
+            console.log("error in adding the todo");
+            toast.error('Try again')
+        }
+      
         setTodo("");
     };
 
@@ -44,6 +61,7 @@ function TodoForm(){
             setInputTagValue('');
         }
     }
+
 
     return(
         <>
@@ -98,7 +116,6 @@ function TodoForm(){
                         <div className="grid grid-cols-2 justify-between">
                             <h1>Time</h1>
                             <input
-                                required
                                 value={time}
                                 onChange={(e)=>setTime(e.target.value)}
                                 className="w-fit bg-gray-100 border rouned-lg rounded-lg p-1"
@@ -141,9 +158,9 @@ function TodoForm(){
                             />
                         </div>
                     </div>
-                    <button type="submit" className="rounded-lg px-3 py-1 mt-28 bg-green-600 text-white shrink-0">
-                        Add
-                    </button>
+                    <Button type="submit">
+                        Add  
+                    </Button>
                     </form>
                 </div>
             </div>         
@@ -151,5 +168,6 @@ function TodoForm(){
         </>
     )
 }
+
 
 export default TodoForm

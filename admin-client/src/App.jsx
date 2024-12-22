@@ -13,11 +13,13 @@ import { Calender } from "./Components/Calender";
 import { StickyWall } from "./Components/StickyWall";
 import { Menu } from "./Components/Menu";
 import TodoForm from "./Components/TodoForm";
+import { Toaster } from "react-hot-toast";
 
 function App() {
 
   return (
     <RecoilRoot>
+        <Toaster/>
       <Router>
         <InitState/>
           <Routes>
@@ -53,7 +55,7 @@ function InitState() {
           const data = await response.json();
           if (data.username) {
               setAuth({ token: data.token, username: data.username });
-              navigate("/today");
+              navigate("/upcoming");
           } else {
               navigate("/");
           }

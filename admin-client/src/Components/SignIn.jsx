@@ -21,7 +21,7 @@ function SignIn(){
 
         if(data.token){
             localStorage.setItem("token" ,data.token);
-            navigate('/today');
+            navigate('/upcoming');
         }else{
             alert('username does not found');
         }

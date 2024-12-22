@@ -28,6 +28,7 @@ export const Days = () => {
     const todayTodos = todos.filter(todo => todo.date === todayDate);
     const tomorrowTodos = todos.filter(todo => todo.date === tomorrowDate);
     const upcomingTodos = todos.filter(todo => todo.date > tomorrowDate);  
+    
 
     return (
         <>
@@ -39,15 +40,15 @@ export const Days = () => {
                     )) : <div className="text-center">Nothing for today</div>}
                 </div>
 
-                <div className="flex flex-row gap-2">
+                <div className="sm:flex sm:flex-row flex-col gap-3">
                     <div className="w-full border rounded-lg px-3 py-4 ">
-                    <h2>Tomorrow</h2>
-                        {tomorrowDate.length != 0 ? tomorrowTodos.map((todo) => (
+                        <h2>Tomorrow</h2>
+                        {tomorrowTodos.length != 0 ? tomorrowTodos.map((todo) => (
                             <TodoItem key={todo.id} todo={todo} />
                         )) : <div className="text-center text-black">Nothing for tommorrow</div>}
                     </div>
 
-                    <div className="w-full border rounded-lg px-3 py-4 ">
+                    <div className="w-full border rounded-lg px-3 py-4 mt-3">
                         <h2>Upcoming</h2>
                         {upcomingTodos.length != 0 ? upcomingTodos.map((todo) => (
                             <TodoItem key={todo.id} todo={todo} />

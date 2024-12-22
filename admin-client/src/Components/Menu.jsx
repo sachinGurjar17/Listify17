@@ -1,8 +1,11 @@
 import { light } from "@mui/material/styles/createPalette";
 import { useState } from "react"
 import { NavLink } from "react-router-dom"
-
+import { ToggleGroup , ToggleGroupItem } from "./ui/toggle-group";
+import pfp from '../assets/pfp.jpg'
+import { jwtDecode } from "jwt-decode";
 export function Menu(){
+
     return (
         <>
             <div className="bg-gray-50 shadow-lg p-5 border rounded-3xl m-2  flex flex-col gap-8 font-semibold text-md text-gray-600">
@@ -13,45 +16,37 @@ export function Menu(){
                         to='/today' 
                         className="sm:hidden block text-xl font-semibold text-gray-500">✖</NavLink>
                 </div>
-                <div>
-                    <input
-                        className="p-2 bg-slate-100 border rounded-lg shadow-sm border-gray-300 text-sm w-full "
-                        placeholder="🔎 Search"
-                        type="text"
-                    />
+                <div className="w-fit h-fit ">
+                    <UserDetail/>
                 </div>
                 <div className="flex flex-col gap-2 border-b-2 pb-3">
                     <h3 className="text-[11px] font-bold">TASKS</h3>
-                    <div className="pl-3 flex flex-col gap-2">
-                        <div>
+                    <ToggleGroup type='multiple' className="pl-3 flex flex-col items-start gap-2">
+                        <ToggleGroupItem>
                             <NavLink to={'/upcoming'}>🔜 Upcoming </NavLink>
-                        </div>
-                        <div>
+                        </ToggleGroupItem>
+                        <ToggleGroupItem>
                             <NavLink to={'/today'}> 📝 Today </NavLink>
-                            <div></div>
-                        </div>
-                        <div>
+                        </ToggleGroupItem>
+                        <ToggleGroupItem>
                             <NavLink to={'/calender'}>🗓️ Calender </NavLink>
-                        </div>
-                        <div>
+                        </ToggleGroupItem>
+                        <ToggleGroupItem>
                             <NavLink to={'/stickywall'}>📰 Sticky Wall </NavLink>
-                        </div> 
-                    </div>
-
-                    
+                        </ToggleGroupItem> 
+                    </ToggleGroup>         
                 </div>
                 <div className="border-b-2 pb-3">
                     <h1 className="font-bold text-[11px]">LISTS</h1>
-                    <div  className="pl-3 flex flex-col gap-2">
-                        <div>🟥 Personal</div>
-                        <div>🟦 Work</div>
-                        <div>🟨 List</div>
-                        <div 
+                    <ToggleGroup type="multiple" className="pl-3 flex flex-col gap-2 items-start">
+                        <ToggleGroupItem>🟥 Personal</ToggleGroupItem>
+                        <ToggleGroupItem>🟦 Work</ToggleGroupItem>
+                        <ToggleGroupItem>🟨 List</ToggleGroupItem>
+                        <ToggleGroupItem 
                             className=""
-                        ><span className="text-lg">+</span> Add new List</div>
-
+                        ><span className="text-lg">+</span> Add new List</ToggleGroupItem>
                         <ColorBox/>
-                    </div>
+                    </ToggleGroup>
 
                 </div>
 
@@ -75,6 +70,37 @@ export function Menu(){
         </>
     )
 } 
+
+function UserDetail(){
+
+    const getUserDetails = (token)=>{
+        try{
+            const decoded = jwtDecode(token);
+
+            console.log(decoded);
+            
+            
+            const {email} = decoded ;
+
+            return email
+        }catch(err){
+            console.log("failed to decode", err);
+        }
+    }
+
+    const email = getUserDetails(localStorage.getItem('token'));
+    console.log(email);
+    
+
+    return(
+        <>  
+            <div className="flex flex-row justify-center items-center flex-wrap gap-2">
+                <img src={pfp} alt="pfpImg" className="border rounded-full w-12 h-12" />
+                <p className="text-sm font-semibold">{email}</p>
+            </div>
+        </>
+    )
+}
 
 function ColorBox (){
     
@@ -102,18 +128,18 @@ function TagBox (){
 
     //const [tags, setTags] = useState("");
     
-    const colorsBox = ["red", "orange", "lime", "pink" , "cyan","blue", "brown"];
+    const colorsBox = ["Heealth", "family", "Office"];
 
     return(
         <>
-            <div className="grid grid-cols-3 gap-2 ">
-                {colorsBox.map((color, index) => (
-                    <div
+            <ToggleGroup type='single' className="grid grid-cols-3 gap-2 ">
+                {colorsBox.map((tag, index) => (
+                    <ToggleGroupItem
                         key={index}
                         className="border-2 rounded-lg p-1 "
-                    > Tag {index+1}</div>
+                    > {tag}</ToggleGroupItem>
                 ))}
-            </div>
+            </ToggleGroup>
         </>
     )
 }

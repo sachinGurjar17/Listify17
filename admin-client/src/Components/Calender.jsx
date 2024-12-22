@@ -6,8 +6,8 @@ import { NavLink } from "react-router-dom"
 export const Calender = ()=>{
 
     const [todos , setTodos] = useState([]);
-    const [showDays , setShowDays] = useState(true)
-    const [showMonth , setShowMonths] = useState(false)
+    const [showDays , setShowDays] = useState(false)
+    const [showMonth , setShowMonths] = useState(true)
     const [showWeeks , setShowWeeks] = useState(false)
 
     const authStateValue = useRecoilValue(authState);
@@ -33,20 +33,20 @@ export const Calender = ()=>{
                       className="block sm:hidden pr-5">
                       <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M286.67-613.33V-680H840v66.67H286.67Zm0 166.66v-66.66H840v66.66H286.67Zm0 166.67v-66.67H840V-280H286.67ZM153.33-613.33q-13.66 0-23.5-9.84Q120-633 120-647q0-14 9.83-23.5 9.84-9.5 23.84-9.5t23.5 9.58q9.5 9.59 9.5 23.75 0 13.67-9.59 23.5-9.58 9.84-23.75 9.84Zm0 166.66q-13.66 0-23.5-9.83-9.83-9.83-9.83-23.83 0-14 9.83-23.5 9.84-9.5 23.84-9.5t23.5 9.58q9.5 9.58 9.5 23.75 0 13.67-9.59 23.5-9.58 9.83-23.75 9.83Zm0 166.67q-13.66 0-23.5-9.83-9.83-9.84-9.83-23.84t9.83-23.5q9.84-9.5 23.84-9.5t23.5 9.59q9.5 9.58 9.5 23.75 0 13.66-9.59 23.5-9.58 9.83-23.75 9.83Z"/></svg> 
                   </NavLink>
-                  <h1 className="text-3xl sm:text-5xl"> 📆</h1>
+                  <h1 className="text-3xl sm:text-5xl"> Calender</h1>
               </div>
               <nav >
                   <div className="border rounded-xl w-fit p-1 text-sm bg-gray-100">
                       <ul className="flex flex-row gap-2">
+                          <button 
+                              onClick={()=>{setShowDays(false) , setShowMonths(true) ,  setShowWeeks(false)}}
+                              className="border px-2 py-1 rounded-xl bg-white">month</button>
                           <button
                               onClick={()=>{setShowDays(true) ,setShowMonths(false) , setShowWeeks(false)}}
                               className="border px-2 py-1 rounded-xl bg-white">Day</button>
                           <button 
                               onClick={()=>{setShowDays(false) , setShowMonths(false) ,  setShowWeeks(true)}}
                               className="border px-2 py-1 rounded-xl bg-white ">Week</button>
-                          <button 
-                              onClick={()=>{setShowDays(false) , setShowMonths(true) ,  setShowWeeks(false)}}
-                              className="border px-2 py-1 rounded-xl bg-white">month</button>
                       </ul>
                   </div>
                 </nav>
@@ -88,7 +88,7 @@ function DayCalendar({ todos }) {
                   {
                   todosForTime.length > 0 ? (
                     todosForTime.map((todo, index) => (
-                      <div key={index} className={`${priorityClass [todo.priority]} text-gray-600 border rounded-lg text-sm p-2 h-full`}>
+                      <div key={index} className={`${priorityClass [todo.priority]} text-gray-600 border rounded-lg text-sm p-2 h-full bg-red-200`}>
                         {todo.todo} : {todo.description}
                       </div>
                     ))
@@ -148,7 +148,7 @@ function WeekCalendar({todos}){
                     <div>
                         {todosForDay.length > 0 ? (
                         todosForDay.map((todo, index) => (
-                            <div key={index} className={`${priorityClass[todo.priority]} text-sm mt-1 p-1 rounded`}>
+                            <div key={index} className={`${priorityClass[todo.priority]} text-sm mt-1 p-1 rounded bg-red-200`}>
                             {todo.todo} : {todo.description}
                             </div>
                         ))
@@ -210,12 +210,12 @@ function MonthCalendar({ todos }) {
                 <div>
                   {day && todosForDay.length > 0 ? (
                     todosForDay.map((todo, index) => (
-                      <div key={index} className={`${priorityClass[todo.priority]} text-[8px] mt-1 p-1 rounded`}>
+                      <div key={index} className={`${priorityClass[todo.priority]} text-[8px] mt-1 p-1 rounded bg-red-200`}>
                         {todo.todo}
                       </div>
                     ))
                   ) : day ? (
-                    <div className="text-gray-400 text-xs">No tasks</div>
+                    <div className="text-gray-400 text-xs">No task</div>
                   ) : null}
                 </div>
               </div>

@@ -55,14 +55,14 @@ function Today(){
                         <h1 className="py-1 px-4 border rounded-lg w-fit font-normal sm:text-4xl ml-12">{todosForToday.length}</h1>
                     </div>
                     <div>
-                        <div className="flex flex-wrap gap-y-3">       
-                            {todosForToday.map((todo) => (
+                        <div className="flex flex-wrap gap-y-3 border rounded-lg px-3 py-4 items-center justify-center">       
+                            {todosForToday.length != 0 ? todosForToday.map((todo) => (
                                 <div key={todo.id}
                                 className='w-full'
                                 >
                                 <TodoItem todo={todo} />
                                 </div>
-                            ))}
+                            )): <>Add tasks for Today</>}
                         </div>
                     </div> 
                 </div> 

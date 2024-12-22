@@ -32,7 +32,9 @@ router.post('/todos', authenticateJwt, (req, res) => {
 
   router.post('/deleteTodo',authenticateJwt , (req , res)=>{
     const todoId = req.body.todoId ;
-    Todo.findOneAndDelete(todoId)
+    console.log({_id : todoId});
+    
+    Todo.findOneAndDelete({id : todoId})
     .then((todos)=>{
       res.json({message:'todo deleted successfully'})
     })

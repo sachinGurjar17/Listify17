@@ -5,6 +5,7 @@ import { authState } from "../store/authState";
 import { NavLink } from "react-router-dom";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import toast from "react-hot-toast";
 export function StickyWall(){
     const [textValue , setTextValue] = useState(" ");
 
@@ -13,7 +14,7 @@ export function StickyWall(){
     const [notes , setNotes] = useState([]);
 
     const addTextValue = async (content) =>{
-        const response = await fetch('http://localhost:3000/notes/addNotes',{
+        const response = await fetch(`${backendUrl}/notes/addNotes`,{
             method : "POST",
             headers: { 
                 'Content-Type': 'application/json', 
@@ -26,8 +27,10 @@ export function StickyWall(){
         setTextValue("");
         if(response.ok){
             console.log("note added successfully");
+            toast.success('Note added')
             setNotes((prevNotes)=>[...prevNotes,{content}]);
         }else{
+            toast.error('try again')
             console.log("error in adding the notes ");
         }
     }
@@ -42,7 +45,6 @@ export function StickyWall(){
             })
 
             const data = await response.json();
-            console.log(data);
             
             setNotes(data);
         }

@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 import { Button } from "./ui/button";
 import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { todoState } from "@/store/todos";
 
 function TodoForm(){
 
@@ -20,15 +22,26 @@ function TodoForm(){
     const [tags , setTags] = useState([]);
     const [inputTagValue , setInputTagValue] = useState("");
 
-    const navigate = useNavigate();
+    const [todos , setTodos] = useRecoilState(todoState)
 
     
-
     const backendUrl = import.meta.env.VITE_BACKEND_URL ;
 
 
     const add = async (e) => {
         e.preventDefault();
+
+        const newTodo = {
+            id:Date.now(),
+            todo:todo,
+            description:description,
+            date:date,
+            time:time,
+            priority : priority ,
+            tags :tags,
+            completed : false 
+        }
+
         const response = await fetch(`${backendUrl}/todo/todos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -46,6 +59,7 @@ function TodoForm(){
 
         if(response.ok){
             console.log("Task Added");
+            setTodos((prev)=>[newTodo , ...prev]);
             toast.success('Task Added')
         }else{
             console.log("error in adding the todo");
@@ -53,6 +67,7 @@ function TodoForm(){
         }
       
         setTodo("");
+        setDescription("")
     };
 
     const handleAddClick = ()=>{

@@ -3,23 +3,19 @@ import TodoForm from "./TodoForm";
 import { TodoProvider } from "../Contexts";
 import { useState , useEffect, useLayoutEffect} from "react";
 import { authState} from "../store/authState";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useTodo } from "../Contexts";
 import { Button } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Menu } from "./Menu";
 import { Layout } from "./Layout";
+import Empty from "./Empty";
+import { todoState } from "@/store/todos";
 
 function Today(){ 
 
-    const [todos , setTodos] = useState([]);
+    const [todos , setTodos] = useRecoilState(todoState)
     const authStateValue = useRecoilValue(authState);
-    const navigate = useNavigate();
-    
-
-    const addTodo = (todo)=>{
-        setTodos((prev)=>[{id:Date.now() , ...todo} ,...prev]);
-    }
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL ;
     
@@ -32,17 +28,17 @@ function Today(){
             setTodos(data);
         };
         getTodos();
-    }, [authStateValue.token ]);
+    }, [authStateValue.token]);
+
+    const todostate = useRecoilValue(todoState);
 
     const todayDate = getTodayDate();
 
-    const todosForToday = todos.filter((todo)=>todo.date === todayDate);
-    
-     
+    const todosForToday = todostate.filter((todo)=>todo.date === todayDate);
 
     return (
 
-        <TodoProvider value={{todos}}>
+        <div>
             <Layout>
                 <div className="flex flex-col gap-10">
                     <div className="text-2xl sm:text-5xl font-semibold flex  items-center">
@@ -55,19 +51,20 @@ function Today(){
                         <h1 className="py-1 px-4 border rounded-lg w-fit font-normal sm:text-4xl ml-12">{todosForToday.length}</h1>
                     </div>
                     <div>
-                        <div className="flex flex-wrap gap-y-3 border rounded-lg px-3 py-4 items-center justify-center">       
+                        <h1>Tasks for the day</h1>
+                        <div className="flex flex-wrap gap-y-3 border rounded-lg p-3  items-center justify-center">       
                             {todosForToday.length != 0 ? todosForToday.map((todo) => (
                                 <div key={todo.id}
                                 className='w-full'
                                 >
-                                <TodoItem todo={todo} />
+                                {!todo.complete ? <TodoItem todo={todo}/> :<></>}
                                 </div>
-                            )): <>Add tasks for Today</>}
+                            )): <Empty/>}
                         </div>
                     </div> 
                 </div> 
             </Layout>       
-        </TodoProvider>
+        </div>
    
     )
 }

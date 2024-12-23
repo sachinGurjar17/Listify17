@@ -10,6 +10,7 @@ const [checked , setChecked] = useState(todo.completed);
 
 const [showTodo , setShowTodo] = useState(true);
 
+const [todos , setTodos] = useRecoilState(todoState);
 
 const priorityClass = {
     high: "bg-red-200",
@@ -64,6 +65,7 @@ const deleteTodo = async (id)=>{
 
     if(response.ok){
         console.log("todo delete suceesfully");
+        setTodos((prev)=> prev.filter((task)=> task.id !== id));
         toast.success('todo deleted succesfully')
     }else{
         console.log("error in deleting the todo");
@@ -75,7 +77,6 @@ const deleteTodo = async (id)=>{
 
 const statusChanged = async(id , completedOrNot)=>{   
     try{
-        console.log(id+"try");
         
         const response = await fetch(`${backendUrl}/todo/statusChange` , {
             method : 'POST',
@@ -113,7 +114,7 @@ return(
                         type="checkbox"
                         checked={checked}
                         onClick={(e)=>{statusChanged(todo.id , !todo.completed) ; setChecked(!checked)} }
-                    >{checked ? <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#789DE5"><path d="m344-60-76-128-144-32 14-148-98-112 98-112-14-148 144-32 76-128 136 58 136-58 76 128 144 32-14 148 98 112-98 112 14 148-144 32-76 128-136-58-136 58Zm34-102 102-44 104 44 56-96 110-26-10-112 74-84-74-86 10-112-110-24-58-96-102 44-104-44-56 96-110 24 10 112-74 86 74 84-10 114 110 24 58 96Zm102-318Zm-42 142 226-226-56-58-170 170-86-84-56 56 142 142Z"/></svg>: <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#789DE5"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>}</button>
+                    >{checked ? <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#789DE5"><path d="m344-60-76-128-144-32 14-148-98-112 98-112-14-148 144-32 76-128 136 58 136-58 76 128 144 32-14 148 98 112-98 112 14 148-144 32-76 128-136-58-136 58Zm34-102 102-44 104 44 56-96 110-26-10-112 74-84-74-86 10-112-110-24-58-96-102 44-104-44-56 96-110 24 10 112-74 86 74 84-10 114 110 24 58 96Zm102-318Zm-42 142 226-226-56-58-170 170-86-84-56 56 142 142Z"/></svg>: <svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 -960 960 960" width="35px" fill="#789DE5"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>}</button>
                     <p className="text-gray-600 font-semibold">{todo.todo}</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2 text-sm">
@@ -139,7 +140,11 @@ return(
                     <div className="w-fit border rounded-lg p-1 m-1 bg-cyan-50">{tag}</div>
                 ))}</div>
                 
-                <div></div>
+                <div>
+                    <button onClick={()=>deleteTodo(todo.id)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#8B7DBE"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                    </button>
+                </div>
             </div> : <></>}
         </div> : <></>}
     </>
@@ -147,6 +152,8 @@ return(
 }
 
 import confetti from "canvas-confetti";
+import { useRecoilState } from "recoil";
+import { todoState } from "@/store/todos";
 
 
 

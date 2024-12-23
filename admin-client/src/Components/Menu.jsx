@@ -76,9 +76,6 @@ function UserDetail(){
     const getUserDetails = (token)=>{
         try{
             const decoded = jwtDecode(token);
-
-            console.log(decoded);
-            
             
             const {email} = decoded ;
 
@@ -89,7 +86,6 @@ function UserDetail(){
     }
 
     const email = getUserDetails(localStorage.getItem('token'));
-    console.log(email);
     
 
     return(
@@ -110,9 +106,9 @@ function ColorBox (){
         <>
             <div className="flex flex-col gap-2 border-2  rounded-lg  p-3 ">
                 <input
-                    className="p-1 bg-gray-100 border-2 rounded-lg"
+                    className="p-1 bg-gray-100 border-2 rounded-lg w-full"
                     type="text" />
-                <div className="grid grid-cols-7 gap-1">{colorsBox.map((color, index) => (
+                <div className="flex flex-row items-center  flex-wrap gap-1 ">{colorsBox.map((color, index) => (
                     <div
                         key={index}
                         style={{backgroundColor:color , opacity : 0.7}}

@@ -55,7 +55,7 @@ function InitState() {
           const data = await response.json();
           if (data.username) {
               setAuth({ token: data.token, username: data.username });
-              navigate("/upcoming");
+              navigate("/today");
           } else {
               navigate("/");
           }

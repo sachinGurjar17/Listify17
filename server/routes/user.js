@@ -27,7 +27,7 @@ router.post('/signup',async (req,res)=>{
 
 router.post('/signin' , async(req , res)=>{
     const {username , password} = req.body ;
-    const user = await User.findOne({username});
+    const user = await User.findOne({username,password});
 
     if(user){
         const token = jwt.sign({ id: user._id ,email : username  }, SECRET, { expiresIn: '1h' });

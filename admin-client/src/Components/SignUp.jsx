@@ -11,20 +11,26 @@ function SignUp(){
     const backendUrl = import.meta.env.VITE_BACKEND_URL ;
 
     const handleSignup = async()=>{
-        const response = await fetch(`${backendUrl}/user/signup`,{
-          method : 'POST',
-          headers: {'Content-Type':'application/json'},
-          body : JSON.stringify({username , password})
-        });
 
-        const data = await response.json();
-        if(data.token) {
-          localStorage.setItem("token",data.token);
-          navigate('/upcoming');
-        }else{
-          alert("error while signing up");
-        }
-    };
+    if(username.length < 5 ){
+      alert("username contains minimum 5 characters");
+      return ;
+    }
+
+    const response = await fetch(`${backendUrl}/user/signup`,{
+      method : 'POST',
+      headers: {'Content-Type':'application/json'},
+      body : JSON.stringify({username , password})
+    });
+
+    const data = await response.json();
+    if(data.token) {
+      localStorage.setItem("token",data.token);
+      navigate('/upcoming');
+    }else{
+      alert("error while signing up");
+    }
+  };
 
     return(
         <>
